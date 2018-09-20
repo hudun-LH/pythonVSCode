@@ -20,7 +20,7 @@ import { ProtocolMessageWriter } from '../../client/debugger/Common/protocolWrit
 import { PythonDebugger } from '../../client/debugger/mainV2';
 import { createDeferred, sleep } from '../../utils/async';
 import { PYTHON_PATH } from '../common';
-import { IS_MULTI_ROOT_TEST, TEST_DEBUGGER } from '../initialize';
+import { TEST_DEBUGGER } from '../initialize';
 
 class Request extends Message implements DebugProtocol.InitializeRequest {
     // tslint:disable-next-line:no-banned-terms
@@ -37,7 +37,7 @@ suite('Debugging - Capabilities', () => {
     let disposables: { dispose?: Function; destroy?: Function }[];
     let proc: ChildProcess;
     setup(async function () {
-        if (!IS_MULTI_ROOT_TEST || !TEST_DEBUGGER) {
+        if (!TEST_DEBUGGER) {
             this.skip();
         }
         this.timeout(30000);

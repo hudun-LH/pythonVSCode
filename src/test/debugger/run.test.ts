@@ -14,7 +14,7 @@ import { DebuggerTypeName, PTVSD_PATH } from '../../client/debugger/Common/const
 import { DebugOptions, LaunchRequestArguments } from '../../client/debugger/Common/Contracts';
 import { noop } from '../../utils/misc';
 import { PYTHON_PATH, sleep } from '../common';
-import { IS_MULTI_ROOT_TEST, TEST_DEBUGGER } from '../initialize';
+import { TEST_DEBUGGER } from '../initialize';
 import { createDebugAdapter } from './utils';
 
 const isProcessRunning = require('is-running') as (number) => boolean;
@@ -24,7 +24,7 @@ const debuggerType = DebuggerTypeName;
 suite('Run without Debugging', () => {
     let debugClient: DebugClient;
     setup(async function () {
-        if (!IS_MULTI_ROOT_TEST || !TEST_DEBUGGER) {
+        if (!TEST_DEBUGGER) {
             this.skip();
         }
         await new Promise(resolve => setTimeout(resolve, 1000));

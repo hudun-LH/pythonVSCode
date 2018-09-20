@@ -11,7 +11,7 @@ import { DebuggerTypeName } from '../../client/debugger/Common/constants';
 import { DebugOptions, LaunchRequestArguments } from '../../client/debugger/Common/Contracts';
 import { noop } from '../../utils/misc';
 import { PYTHON_PATH } from '../common';
-import { IS_MULTI_ROOT_TEST, TEST_DEBUGGER } from '../initialize';
+import { TEST_DEBUGGER } from '../initialize';
 import { DEBUGGER_TIMEOUT } from './common/constants';
 
 use(chaiAsPromised);
@@ -26,7 +26,7 @@ const debuggerType = DebuggerTypeName;
 suite(`Standard Debugging of ports and hosts: ${debuggerType}`, () => {
     let debugClient: DebugClient;
     setup(async function () {
-        if (!IS_MULTI_ROOT_TEST || !TEST_DEBUGGER) {
+        if (!TEST_DEBUGGER) {
             // tslint:disable-next-line:no-invalid-this
             this.skip();
         }

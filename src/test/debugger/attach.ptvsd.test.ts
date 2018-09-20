@@ -20,7 +20,7 @@ import { DebuggerTypeName, PTVSD_PATH } from '../../client/debugger/Common/const
 import { AttachRequestArguments, DebugOptions } from '../../client/debugger/Common/Contracts';
 import { IServiceContainer } from '../../client/ioc/types';
 import { PYTHON_PATH, sleep } from '../common';
-import { initialize, IS_MULTI_ROOT_TEST, TEST_DEBUGGER } from '../initialize';
+import { initialize, TEST_DEBUGGER } from '../initialize';
 import { continueDebugging, createDebugAdapter } from './utils';
 
 const fileToDebug = path.join(EXTENSION_ROOT_DIR, 'src', 'testMultiRootWkspc', 'workspace5', 'remoteDebugger-start-with-ptvsd.py');
@@ -31,7 +31,7 @@ suite('Attach Debugger', () => {
     suiteSetup(initialize);
 
     setup(async function () {
-        if (!IS_MULTI_ROOT_TEST || !TEST_DEBUGGER) {
+        if (!TEST_DEBUGGER) {
             this.skip();
         }
         this.timeout(30000);
