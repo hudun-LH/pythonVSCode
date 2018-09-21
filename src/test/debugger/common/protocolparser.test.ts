@@ -7,7 +7,9 @@ import { ProtocolParser } from '../../../client/debugger/Common/protocolParser';
 import { createDeferred } from '../../../utils/async';
 import { sleep } from '../../common';
 
-suite('Debugging - Protocol Parser', () => {
+suite('Debugging - Protocol Parser', function () {
+    // tslint:disable-next-line:no-invalid-this
+    this.timeout(10000);
     test('Test request, response and event messages', async () => {
         const stream = new PassThrough();
 
@@ -55,8 +57,6 @@ suite('Debugging - Protocol Parser', () => {
         protocolParser.on('response_initialize', () => responseDetected.resolve(true));
 
         stream.write('Content-Length: 265\r\n\r\n{"seq":1,"type":"response","request_seq":1,"command":"initialize","success":true,"body":{"supportsEvaluateForHovers":false,"supportsConditionalBreakpoints":true,"supportsConfigurationDoneRequest":true,"supportsFunctionBreakpoints":false,"supportsSetVariable":true}}');
-        // Wait for messages to go through and get parsed (unnecenssary, but add for testing edge cases).
-        await sleep(1000);
-        expect(responseDetected.completed).to.be.equal(false, 'Promise should not have resolved');
+        await responseDetected;
     });
 });

@@ -33,14 +33,14 @@ class Request extends Message implements DebugProtocol.InitializeRequest {
 
 const fileToDebug = path.join(EXTENSION_ROOT_DIR, 'src', 'testMultiRootWkspc', 'workspace5', 'remoteDebugger-start-with-ptvsd.py');
 
-suite('Debugging - Capabilities', () => {
+suite('Debugging - Capabilities', function () {
+    this.timeout(30000);
     let disposables: { dispose?: Function; destroy?: Function }[];
     let proc: ChildProcess;
     setup(async function () {
         if (!TEST_DEBUGGER) {
             this.skip();
         }
-        this.timeout(30000);
         disposables = [];
     });
     teardown(() => {
@@ -94,10 +94,15 @@ suite('Debugging - Capabilities', () => {
         const actualResponsePromise = new Promise<DebugProtocol.InitializeResponse>(resolve => protocolParser.once('response_initialize', resolve));
         protocolWriter.write(socket!, initializeRequest);
         const actualResponse = await actualResponsePromise;
-
+        // WARNING: Do not use expect(...).deep.equal(...) as it causes testing to stop.
         // supportsDebuggerProperties is not documented, most probably a VS specific item.
-        const body: any = actualResponse.body;
-        delete body.supportsDebuggerProperties;
-        expect(actualResponse.body).to.deep.equal(expectedResponse.body);
+        Object.keys(actualResponse.body).forEach(key => {
+            if (key === 'supportsDebuggerProperties') {
+                return;
+            }
+            const actualValue = expectedResponse.body[key];
+            const expectedValue = expectedResponse.body[key];
+            expect(JSON.stringify(actualValue)).to.equal(JSON.stringify(expectedValue), key);
+        });
     });
 });
