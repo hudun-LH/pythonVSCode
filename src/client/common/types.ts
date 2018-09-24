@@ -245,6 +245,7 @@ export interface ITerminalSettings {
 }
 
 export interface IAnalysisSettings {
+    readonly downloadChannel?: 'stable' | 'beta' | 'daily';
     readonly openFilesOnly: boolean;
     readonly typeshedPaths: string[];
     readonly errors: string[];
